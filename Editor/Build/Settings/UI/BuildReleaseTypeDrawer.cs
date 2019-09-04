@@ -1,5 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEditorInternal;
+using System;
+using System.Collections.Generic;
 
 namespace SuperSystems.UnityBuild
 {
@@ -7,6 +10,8 @@ namespace SuperSystems.UnityBuild
 [CustomPropertyDrawer(typeof(BuildReleaseType))]
 public class BuildReleaseTypeDrawer : PropertyDrawer
 {
+	private Dictionary<string, ReorderableList> vrSDKLists;
+
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
@@ -106,6 +111,45 @@ public class BuildReleaseTypeDrawer : PropertyDrawer
 
         EditorGUI.EndProperty();
     }
+
+	private ReorderableList CreateVRSDKList(SerializedProperty property) {
+		ReorderableList list = new ReorderableList(property.serializedObject, property, true, true, true, true);
+		list.drawHeaderCallback = (Rect rect) => {
+			EditorGUI.LabelField(rect, "Supported Virtual Reality SDKs");
+		};
+		list.onCanRemoveCallback = (x) => { return list.count > 0; };
+		list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) => {
+			var element = list.serializedProperty.GetArrayElementAtIndex(index);
+			EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), element.stringValue);
+			//EditorGUI.PropertyField(new Rect(rect.x, rect.y, rect.width, EditorGUIUtility.singleLineHeight), element, GUIContent.none);
+		};
+		list.onAddDropdownCallback = (Rect buttonRect, ReorderableList l) => {
+			var menu = new GenericMenu();
+			HashSet<string> sdks = new HashSet<string>();
+			foreach(BuildTargetGroup targetGroup in Enum.GetValues(typeof(BuildTargetGroup)))
+				foreach(var sdk in PlayerSettings.GetVirtualRealitySDKs(targetGroup))
+					sdks.Add(sdk);
+
+			foreach(var sdk in sdks) {
+				menu.AddItem(new GUIContent(sdk), false, sdkAddHandler, new object[] { l, sdk });
+			}
+			menu.ShowAsContext();
+		};
+
+		return list;
+	}
+
+	private void sdkAddHandler(object target) {
+		var data = (object[])target;
+		var vrSDKList = data[0] as ReorderableList;
+		var sdkName = data[1] as string;
+		var index = vrSDKList.serializedProperty.arraySize;
+		vrSDKList.serializedProperty.arraySize++;
+		vrSDKList.index = index;
+		var element = vrSDKList.serializedProperty.GetArrayElementAtIndex(index);
+		element.stringValue = sdkName;
+		vrSDKList.serializedProperty.serializedObject.ApplyModifiedProperties();
+	}
 }
 
 }
