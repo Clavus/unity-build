@@ -14,6 +14,8 @@ public class BuildReleaseType
     public bool allowDebugging = false;
     public bool enableHeadlessMode = false;
     public string customDefines = string.Empty;
+	public bool virtualRealitySupported;
+	public string[] virtualRealitySDKs;
 
     public SceneList sceneList = new SceneList();
 }

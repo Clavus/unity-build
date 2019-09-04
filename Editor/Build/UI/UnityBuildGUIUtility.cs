@@ -67,20 +67,20 @@ public class UnityBuildGUIUtility
         _dropdownContentStyle.padding = new RectOffset(5, 5, 5, 5);
         _dropdownContentStyle.margin = new RectOffset(5, 5, 0, 0);
 
-        _mainTitleStyle = new GUIStyle(EditorStyles.miniBoldLabel);
-        _mainTitleStyle.fontSize = 18;
-        _mainTitleStyle.fontStyle = FontStyle.Bold;
-        _mainTitleStyle.alignment = TextAnchor.MiddleCenter;
-        _mainTitleStyle.fixedHeight = 35;
-        _mainTitleStyle.normal.textColor = new Color32(255, 55, 85, 255);
+		_mainTitleStyle = new GUIStyle(EditorStyles.miniBoldLabel);
+		_mainTitleStyle.fontSize = 18;
+		_mainTitleStyle.fontStyle = FontStyle.Bold;
+		_mainTitleStyle.alignment = TextAnchor.MiddleCenter;
+		_mainTitleStyle.fixedHeight = 35;
+		_mainTitleStyle.normal.textColor = new Color32(240, 240, 240, 255);
 
-        _subTitleStyle = new GUIStyle(_mainTitleStyle);
-        _subTitleStyle.fontSize = 9;
-        _subTitleStyle.fontStyle = FontStyle.Normal;
-        _subTitleStyle.normal.textColor = new Color32(83, 229, 255, 255);
+		_subTitleStyle = new GUIStyle(_mainTitleStyle);
+		_subTitleStyle.fontSize = 9;
+		_subTitleStyle.fontStyle = FontStyle.Normal;
+		_subTitleStyle.normal.textColor = new Color32(200, 200, 200, 255);
 
-        _dragDropArea = new GUIStyle(GUI.skin.box);
-        _dragDropArea.stretchWidth = true;
+		_dragDropArea = new GUIStyle(GUI.skin.box);
+    _dragDropArea.stretchWidth = true;
         _dragDropArea.alignment = TextAnchor.MiddleCenter;
         _dragDropArea.normal.textColor = GUI.skin.textField.normal.textColor;
 

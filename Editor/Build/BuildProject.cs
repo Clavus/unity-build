@@ -331,6 +331,14 @@ public static class BuildProject
             options |= BuildOptions.AllowDebugging;
         if (releaseType.enableHeadlessMode)
             options |= BuildOptions.EnableHeadlessMode;
+		
+		// Remember current editor VR settings
+		string[] editorCurrentSDKs = PlayerSettings.GetVirtualRealitySDKs(platform.targetGroup);
+		bool editorVRSupported = PlayerSettings.GetVirtualRealitySupported(platform.targetGroup);
+
+		// Set VR stuff from release config
+		PlayerSettings.SetVirtualRealitySupported(platform.targetGroup, releaseType.virtualRealitySupported);
+		PlayerSettings.SetVirtualRealitySDKs(platform.targetGroup, releaseType.virtualRealitySDKs);
 
         // Generate build path.
         string buildPath = GenerateBuildPath(BuildSettings.basicSettings.buildPath, releaseType, platform, architecture, distribution, buildTime);

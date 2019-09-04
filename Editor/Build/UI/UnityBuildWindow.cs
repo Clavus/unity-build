@@ -16,8 +16,8 @@ public class UnityBuildWindow : EditorWindow
     private SerializedObject go;
 
     #region MenuItems
-
-    [MenuItem("Window/SuperUnityBuild")]
+		
+	[MenuItem("Build/Super Unity Build")]
     public static void ShowWindow()
     {
         // Get Inspector type, so we can try to autodock beside it.
@@ -46,10 +46,10 @@ public class UnityBuildWindow : EditorWindow
     protected void OnEnable()
     {
 #if UNITY_5_1 || UNITY_5_2 || UNITY_5_3 || UNITY_5_4_OR_NEWER
-        GUIContent title = new GUIContent("SuperUnityBuild");
+        GUIContent title = new GUIContent("Super Unity Build");
         titleContent = title;
 #else
-        title = "SuperUnityBuild";
+        title = "Super Unity Build";
 #endif
 
         BuildNotificationList.instance.InitializeErrors();
@@ -97,10 +97,10 @@ public class UnityBuildWindow : EditorWindow
 
     private void DrawTitle()
     {
-        EditorGUILayout.LabelField("Super Unity Build", UnityBuildGUIUtility.mainTitleStyle);
-        EditorGUILayout.LabelField("by Super Systems Softworks", UnityBuildGUIUtility.subTitleStyle);
-        GUILayout.Space(15);
-    }
+		EditorGUILayout.LabelField("Super Unity Build", UnityBuildGUIUtility.mainTitleStyle);
+		EditorGUILayout.LabelField("by Super Systems Softworks, extended by Clavusaurus", UnityBuildGUIUtility.subTitleStyle);
+		GUILayout.Space(15);
+	}
 
     private void DrawProperties()
     {

@@ -48,6 +48,18 @@ public class BuildReleaseTypeDrawer : PropertyDrawer
             SerializedProperty developmentBuild = property.FindPropertyRelative("developmentBuild");
             SerializedProperty allowDebugging = property.FindPropertyRelative("allowDebugging");
             SerializedProperty enableHeadlessMode = property.FindPropertyRelative("enableHeadlessMode");
+			SerializedProperty enableVR = property.FindPropertyRelative("virtualRealitySupported");
+			SerializedProperty supportedSDKs = property.FindPropertyRelative("virtualRealitySDKs");
+
+			if (vrSDKLists == null)
+				vrSDKLists = new Dictionary<string, ReorderableList>();
+
+			ReorderableList vrSDKList;
+			if (!vrSDKLists.TryGetValue(property.propertyPath, out vrSDKList))
+			{
+				vrSDKList = CreateVRSDKList(supportedSDKs);
+				vrSDKLists.Add(property.propertyPath, vrSDKList);
+			}
 
             EditorGUI.BeginDisabledGroup(enableHeadlessMode.boolValue);
             developmentBuild.boolValue = EditorGUILayout.ToggleLeft(" Development Build", developmentBuild.boolValue);
@@ -61,7 +73,13 @@ public class BuildReleaseTypeDrawer : PropertyDrawer
             enableHeadlessMode.boolValue = EditorGUILayout.ToggleLeft(" Headless Mode", enableHeadlessMode.boolValue);
             EditorGUI.EndDisabledGroup();
 
-            EditorGUILayout.PropertyField(property.FindPropertyRelative("sceneList"));
+			enableVR.boolValue = EditorGUILayout.ToggleLeft(" Virtual Reality Supported", enableVR.boolValue);
+			if (enableVR.boolValue)
+			{
+				vrSDKList.DoLayoutList();
+			}
+
+			EditorGUILayout.PropertyField(property.FindPropertyRelative("sceneList"));
 
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
